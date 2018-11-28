@@ -4,7 +4,7 @@
   <groupId>com.epam.ethan</groupId>
   <artifactId>WarPatchZip</artifactId>
   <name>Create War with zip Patch</name>
-  <version>0.1.1</version>
+  <version>0.2.0</version>
   <packaging>war</packaging>
   
   <distributionManagement>
@@ -31,7 +31,7 @@
                 <artifactItem>                  
                   <groupId>com.epam.ethan</groupId>
                   <artifactId>UnpackRepack</artifactId>
-                  <version>0.1.0</version>
+                  <version>0.2.0</version>
                   <type>war</type>
                   <outputDirectory>${project.basedir}/src/main/webapp</outputDirectory>
                   <excludes>WEB-INF/lib/access-modifier-annotation-*.jar,WEB-INF/lib/acegi-security-*.jar</excludes>
@@ -71,6 +71,15 @@
             </configuration>            
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.2</version>
+        <configuration>
+          <archive>
+            <addMavenDescriptor>false</addMavenDescriptor>
+          </archive>
+        </configuration>
       </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
