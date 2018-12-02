@@ -4,14 +4,14 @@
   <groupId>com.epam.ethan</groupId>
   <artifactId>WarPatchZip</artifactId>
   <name>Create War with zip Patch</name>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <packaging>war</packaging>
 
   <dependencies>
     <dependency>
       <groupId>com.epam.ethan</groupId>
       <artifactId>ZipPack</artifactId>
-      <version>0.3.1</version>
+      <version>0.3.2</version>
       <type>zip</type>
       <scope>compile</scope>
     </dependency>
