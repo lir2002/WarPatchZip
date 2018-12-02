@@ -4,14 +4,14 @@
   <groupId>com.epam.ethan</groupId>
   <artifactId>WarPatchZip</artifactId>
   <name>Create War with zip Patch</name>
-  <version>0.3.2</version>
+  <version>0.3.3</version>
   <packaging>war</packaging>
 
   <dependencies>
     <dependency>
       <groupId>com.epam.ethan</groupId>
       <artifactId>ZipPack</artifactId>
-      <version>0.3.3</version>
+      <version>0.3.2</version>
       <type>zip</type>
       <scope>compile</scope>
     </dependency>
@@ -73,6 +73,7 @@
               <goal>read-project-properties</goal>
             </goals>
             <configuration>
+              <quiet>true</quiet>
               <files>
                 <file>${project.basedir}/src/main/patch/UnpackRepack.delete</file>
               </files>
