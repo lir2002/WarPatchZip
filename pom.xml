@@ -4,8 +4,18 @@
   <groupId>com.epam.ethan</groupId>
   <artifactId>WarPatchZip</artifactId>
   <name>Create War with zip Patch</name>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <packaging>war</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.epam.ethan</groupId>
+      <artifactId>ZipPack</artifactId>
+      <version>0.3.1</version>
+      <type>zip</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
   
   <distributionManagement>
     <repository>
@@ -21,8 +31,19 @@
         <version>3.1.1</version>
         <executions>
           <execution>
-            <id>unpack</id>
+            <id>unpack-dep</id>
             <phase>process-resources</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <excludeTransitive>true</excludeTransitive>
+              <outputDirectory>${project.basedir}/src/main/patch</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack</id>
+            <phase>process-test-resources</phase>
             <goals>
               <goal>unpack</goal>
             </goals>
@@ -31,21 +52,32 @@
                 <artifactItem>                  
                   <groupId>com.epam.ethan</groupId>
                   <artifactId>UnpackRepack</artifactId>
-                  <version>0.2.0</version>
+                  <version>0.2.1</version>
                   <type>war</type>
                   <outputDirectory>${project.basedir}/src/main/webapp</outputDirectory>
-                  <excludes>WEB-INF/lib/access-modifier-annotation-*.jar,WEB-INF/lib/acegi-security-*.jar</excludes>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>com.epam.ethan</groupId>
-                  <artifactId>ZipPack</artifactId>
-                  <version>0.2.1</version>
-                  <type>zip</type>
-                  <outputDirectory>${project.basedir}/src/main/patch</outputDirectory>
+                  <excludes>${patch.delete.files}</excludes>
                 </artifactItem>
             </artifactItems>
           </configuration>
         </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>${project.basedir}/src/main/patch/UnpackRepack.delete</file>
+              </files>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -55,7 +87,7 @@
           <execution>
             <id>copy-resources</id>
             <!-- here the phase you need -->
-            <phase>compile</phase>
+            <phase>test-compile</phase>
             <goals>
               <goal>copy-resources</goal>
             </goals>
@@ -64,7 +96,7 @@
               <outputDirectory>${project.basedir}/src/main/webapp</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${project.basedir}/src/main/patch/jenkins-war</directory>
+                  <directory>${project.basedir}/src/main/patch/UnpackRepack</directory>
                   <filtering>true</filtering>
                 </resource>
               </resources>              
@@ -78,6 +110,7 @@
         <configuration>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>
+            <manifestFile>src/main/webapp/META-INF/MANIFEST.MF</manifestFile>
           </archive>
         </configuration>
       </plugin>
